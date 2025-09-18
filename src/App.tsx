@@ -1,18 +1,35 @@
 
-import {useQuery} from '@tanstack/react-query'
+import {useQuery, QueryClient} from '@tanstack/react-query'
+
+
+const queryClient = new QueryClient()
+
+
+interface IUser {
+    id:string;
+    name: string;
+    email: string;
+}
 
 export default function App() {
 
-    useQuery({
+   const { data } = useQuery({
         queryKey: ['users'],
-        queryFn: async () => {
+        queryFn: async (): Promise<IUser[]> => {
             const response = await fetch('http://localhost:3000/users')
-            return response
+            return response.json();
         },
 
-    });
+    }, queryClient);
 
     return (
-        <h1>Hello Word!</h1>
+         <div>
+            {data?.map(user => (
+                <div key={user.id}>
+                <strong className="block">{user.name}</strong>
+                <small>{user.email}</small>
+                </div>
+            ))}
+         </div>
     )
 }
