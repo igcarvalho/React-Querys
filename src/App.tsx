@@ -1,7 +1,7 @@
 
 import {useQuery} from '@tanstack/react-query'
 
-export function App() {
+export default function App() {
 
     useQuery({
         queryKey: ['users'],
