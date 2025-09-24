@@ -6,12 +6,13 @@ export default function Users() {
        const { data, refetch, isFetching , isLoading} = useQuery({
         enabled: false,
         queryKey: ['users'],
+        staleTime: 5000,
         queryFn: async (): Promise<IUser[]> => {
             await sleep();
             const response = await fetch('http://localhost:3000/users')
             return response.json();
         },
-    }, );
+    });
     return (
          <div className="py-4">
          <button type="button"
