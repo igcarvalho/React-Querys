@@ -7,7 +7,7 @@ export default function Users() {
         queryKey: ['users'],
         queryFn: async (): Promise<IUser[]> => {
           //  throw new Error("Deu error");
-             await sleep();
+             await sleep(500);
              const response = await fetch('http://localhost:3000/users');
              return response.json();
         },
