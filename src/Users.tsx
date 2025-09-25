@@ -4,7 +4,7 @@
 import { useUsers } from "./hooks/useUsers";
 
 export default function Users() {
-    const { data, refetch, isFetching, isLoading , error} = useUsers()
+    const { users, refetch, isFetching, isLoading , error} = useUsers()
 
     return (
         <div className="py-4">
@@ -25,7 +25,7 @@ export default function Users() {
             </div>
 
             {/* Lista de usuários */}
-            {data?.map(user => (
+            {users.map(user => (
                 <div key={user.id} className="mt-2 p-2 border border-gray-600 rounded">
                     <strong className="block text-red-300">{user.name}</strong>
                     <strong className="text-gray-300">{user.email}</strong>

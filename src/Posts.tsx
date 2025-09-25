@@ -8,7 +8,7 @@ import sleep from "./sleep";
 
 export function Posts() {
     const queryClient = useQueryClient()
-
+     //  const { data, refetch, isFetching, isLoading , error} = useUsers()
     useQuery({
         queryKey: ['users'],
         queryFn:  async (): Promise<IUser[]> => {
