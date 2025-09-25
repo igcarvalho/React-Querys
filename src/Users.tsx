@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import type { IUser } from "./types";
-import sleep from "./sleep";
+// import sleep from "./sleep";
 
 export default function Users() {
-    const { data, refetch, isFetching, isLoading } = useQuery({
+    const { data, refetch, isFetching, isLoading , error} = useQuery({
         queryKey: ['users'],
         staleTime: 5000,
         gcTime: 3000,
         refetchOnWindowFocus: false,
         queryFn: async (): Promise<IUser[]> => {
-            await sleep();
-            const response = await fetch('http://localhost:3000/users');
-            return response.json();
+            throw new Error("Deu error");
+            // await sleep();
+            // const response = await fetch('http://localhost:3000/users');
+            // return response.json();
         },
     });
 
@@ -30,6 +31,7 @@ export default function Users() {
             <div className="mt-2">
                 {isLoading && <h1 className="text-blue-500">Carregando...</h1>}
                 {!isLoading && isFetching && <small className="text-yellow-500">Fetching...</small>}
+                {error && <h1 className="text-red-400">{error.toString()}</h1>}
             </div>
 
             {/* Lista de usuários */}
