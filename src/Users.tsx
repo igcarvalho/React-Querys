@@ -5,10 +5,8 @@ import type { IUser } from "./types";
 export default function Users() {
     const { data, refetch, isFetching, isLoading , error} = useQuery({
         queryKey: ['users'],
-        staleTime: 5000,
-        gcTime: 3000,
-        refetchOnWindowFocus: false,
         queryFn: async (): Promise<IUser[]> => {
+          //  throw new Error("Deu error");
              await sleep();
              const response = await fetch('http://localhost:3000/users');
              return response.json();
