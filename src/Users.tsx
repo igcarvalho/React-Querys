@@ -7,6 +7,7 @@ export default function Users() {
         queryKey: ['users'],
         staleTime: 5000,
         gcTime: 3000,
+        refetchOnWindowFocus: false,
         queryFn: async (): Promise<IUser[]> => {
             await sleep();
             const response = await fetch('http://localhost:3000/users');
