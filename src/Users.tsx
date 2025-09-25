@@ -1,17 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import type { IUser } from "./types";
- import sleep from "./sleep";
+// import { useQuery } from "@tanstack/react-query";
+// import type { IUser } from "./types";
+//  import sleep from "./sleep";
+import { useUsers } from "./hooks/useUsers";
 
 export default function Users() {
-    const { data, refetch, isFetching, isLoading , error} = useQuery({
-        queryKey: ['users'],
-        queryFn: async (): Promise<IUser[]> => {
-          //  throw new Error("Deu error");
-             await sleep(500);
-             const response = await fetch('http://localhost:3000/users');
-             return response.json();
-        },
-    });
+    const { data, refetch, isFetching, isLoading , error} = useUsers()
 
     return (
         <div className="py-4">
