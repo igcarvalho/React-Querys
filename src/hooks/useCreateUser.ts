@@ -3,7 +3,7 @@ import type { IUser } from "../types";
 import sleep from "../sleep";
 
 export function useCreateUser() {
-    const {mutateAsync, isPending} = useMutation({
+    const { mutateAsync, isPending } = useMutation({
         mutationFn: async ({
             name,
             email,
@@ -21,11 +21,13 @@ export function useCreateUser() {
             });
             return response.json();
         },
+        onSuccess: (data, variables) => { console.log("OnSuccess", { data, variables }); },
+        onError: (error, variables) => { console.log(`Erro: ${error}`, variables); },
     });
 
     return {
-         createUser:mutateAsync,
-         IsLoading:isPending,
+        createUser: mutateAsync,
+        IsLoading: isPending,
 
-        }
+    }
 }
