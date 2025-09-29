@@ -8,9 +8,9 @@ import type { IUser } from "./types";
 import sleep from "./sleep";
 
 export default function Users() {
-    const { users, refetch, isFetching, isLoading, error } = useUsers();
+    const { users, refetch, isFetching, isLoading, error  } = useUsers();
 
-    const { mutate, isPending } = useMutation({
+    const { mutateAsync, isPending  } = useMutation({
         mutationFn: async ({
             name,
             email,
@@ -41,12 +41,18 @@ export default function Users() {
         onSuccess: (data, variables) => {
             console.log('OnSuccess', {data , variables})
         },
-        onSettled: () => {
-            console.log('Terminou a Execução')
+        onSettled: (data, error) => {
+            if (data) {
+             console.log('Deu tudo certo!')
+             console.log({data})
+            }
+            if(error) {
+            console.log('Deu tudo errado!')
+            console.log(error)
+            }
         }
     });
-
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const elements = event.currentTarget
@@ -58,10 +64,12 @@ export default function Users() {
         console.log("Nome:", elements.name.value);
         console.log("Email:", elements.email.value);
 
-        mutate({
+        const data = await  mutateAsync({
             name: elements.name.value,
             email: elements.email.value,
         });
+
+         console.log(`Redireciona para: /users/${data.id}`)
     }
 
     return (
