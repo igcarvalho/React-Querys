@@ -39,8 +39,11 @@ export default function Users() {
             );
         },
         onSuccess: (data, variables) => {
-            console.log('OnSuccess', data, variables)
+            console.log('OnSuccess', {data , variables})
         },
+        onSettled: () => {
+            console.log('Terminou a Execução')
+        }
     });
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
