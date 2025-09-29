@@ -1,7 +1,7 @@
 // import { useQuery } from "@tanstack/react-query";
 // import type { IUser } from "./types";
 //  import sleep from "./sleep";
-import React  from "react";
+import React from "react";
 import { useUsers } from "./hooks/useUsers";
 import { useMutation } from "@tanstack/react-query";
 import type { IUser } from "./types";
@@ -10,31 +10,50 @@ import sleep from "./sleep";
 export default function Users() {
     const { users, refetch, isFetching, isLoading, error } = useUsers();
 
-   const {mutate, isPending }  =  useMutation({
-        mutationFn: async ({name, email}: {name: string , email:string}): Promise<IUser> => {
-            await  sleep()
-          const response =  await fetch('http://localhost:3000/users',{
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body : JSON.stringify({name,email})
-          })
+    const { mutate, isPending } = useMutation({
+        mutationFn: async ({
+            name,
+            email,
+        }: {
+            name: string;
+            email: string;
+        }): Promise<IUser> => {
+            await sleep();
 
-          return response.json();
+            //  console.log('mutationFn() executou');
+            //  throw new Error('Deu ruim na mutation');
+            const response = await fetch("http://localhost:3000/users", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({ name, email }),
+            });
+
+            return response.json();
+        },
+        onError: (error, variables) => {
+            console.log(
+                `Erro na request.\n${error.toString()}\nvariables:`,
+                variables
+            );
+        },
+        onSuccess: (data, variables) => {
+            console.log('OnSuccess', data, variables)
         },
     });
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault()
+        event.preventDefault();
 
-        const elements = event.currentTarget.elements as typeof event.currentTarget.elements & {
+        const elements = event.currentTarget
+            .elements as typeof event.currentTarget.elements & {
             name: HTMLInputElement;
             email: HTMLInputElement;
-        }
+        };
 
-        console.log('Nome:', elements.name.value)
-         console.log('Email:', elements.email.value)
+        console.log("Nome:", elements.name.value);
+        console.log("Email:", elements.email.value);
 
         mutate({
             name: elements.name.value,
@@ -46,20 +65,23 @@ export default function Users() {
         <div className="py-4">
             <div>
                 <div className="mb-10">
-                    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+                    <form
+                        className="flex flex-col gap-2"
+                        onSubmit={handleSubmit}
+                    >
                         <input
-                        className="outline-none p-1 rounded-md text-white"
-                         placeholder="Nome"
-                         name="name"
-                         />
-                          <input
-                         className="outline-none p-1 rounded-md text-white"
-                         placeholder="E-mail"
-                         name="email"
-                         />
+                            className="outline-none p-1 rounded-md text-white"
+                            placeholder="Nome"
+                            name="name"
+                        />
+                        <input
+                            className="outline-none p-1 rounded-md text-white"
+                            placeholder="E-mail"
+                            name="email"
+                        />
 
                         <button className="bg-blue-400 py-2 text-zinc-950 rounded-md">
-                            {isPending ? 'Cadastrando...' : 'Cadastrar'}
+                            {isPending ? "Cadastrando..." : "Cadastrar"}
                         </button>
                     </form>
                 </div>
