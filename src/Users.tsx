@@ -9,10 +9,11 @@ export default function Users() {
     const { users, refetch, isFetching, isLoading, error } = useUsers();
 
    const {mutate}  =  useMutation({
-        mutationFn: async () => {
+        mutationFn: async (variables: {name: string , email:string}) => {
+            console.log({variables})
             console.log('MutationFn() executou!')
-        }
-    })
+        },
+    });
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -25,7 +26,10 @@ export default function Users() {
         console.log('Nome:', elements.name.value)
          console.log('Email:', elements.email.value)
 
-        mutate();
+        mutate({
+            name: elements.name.value,
+            email: elements.email.value,
+        });
     }
 
     return (
