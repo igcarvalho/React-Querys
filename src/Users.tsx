@@ -1,17 +1,31 @@
 // import { useQuery } from "@tanstack/react-query";
 // import type { IUser } from "./types";
 //  import sleep from "./sleep";
-import React, { useState } from "react";
+import React  from "react";
 import { useUsers } from "./hooks/useUsers";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Users() {
     const { users, refetch, isFetching, isLoading, error } = useUsers();
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
+
+   const {mutate}  =  useMutation({
+        mutationFn: async () => {
+            console.log('MutationFn() executou!')
+        }
+    })
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        console.log({name, email});
+
+        const elements = event.currentTarget.elements as typeof event.currentTarget.elements & {
+            name: HTMLInputElement;
+            email: HTMLInputElement;
+        }
+
+        console.log('Nome:', elements.name.value)
+         console.log('Email:', elements.email.value)
+
+        mutate();
     }
 
     return (
@@ -20,14 +34,14 @@ export default function Users() {
                 <div className="mb-10">
                     <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
                         <input
+                        className="outline-none p-1 rounded-md text-white"
                          placeholder="Nome"
-                         value={name}
-                         onChange={e => setName(e.target.value)}
+                         name="name"
                          />
                           <input
+                         className="outline-none p-1 rounded-md text-white"
                          placeholder="E-mail"
-                         value={email}
-                         onChange={e => setEmail(e.target.value)}
+                         name="email"
                          />
 
                         <button className="bg-blue-400 py-2 text-zinc-950 rounded-md">
