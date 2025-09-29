@@ -1,17 +1,29 @@
 {
-    "users": [
-        { "id": 1,
-         "name": "igor",
-          "email": "igor@teste.com.br"
-         },
-        { "id": 2,
-         "name": "solange",
-          "email": "solange@teste.com.br"
-        },
-        { "id": 3,
-         "name": "guga",
-          "email": "guga@teste.com.br"
-        }
-
-    ]
+  "users": [
+    {
+      "id": "1",
+      "name": "igor",
+      "email": "igor@teste.com.br"
+    },
+    {
+      "id": "2",
+      "name": "solange",
+      "email": "solange@teste.com.br"
+    },
+    {
+      "id": "3",
+      "name": "guga",
+      "email": "guga@teste.com.br"
+    },
+    {
+      "id": "7c4d",
+      "name": "Iguinho",
+      "email": "igorcarvalho288@gmail.com"
+    },
+    {
+      "id": "3666",
+      "name": "robinho",
+      "email": "robinho@paizao.com.br"
+    }
+  ]
 }

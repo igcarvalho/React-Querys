@@ -4,14 +4,24 @@
 import React  from "react";
 import { useUsers } from "./hooks/useUsers";
 import { useMutation } from "@tanstack/react-query";
+import type { IUser } from "./types";
+import sleep from "./sleep";
 
 export default function Users() {
     const { users, refetch, isFetching, isLoading, error } = useUsers();
 
-   const {mutate}  =  useMutation({
-        mutationFn: async (variables: {name: string , email:string}) => {
-            console.log({variables})
-            console.log('MutationFn() executou!')
+   const {mutate, isPending }  =  useMutation({
+        mutationFn: async ({name, email}: {name: string , email:string}): Promise<IUser> => {
+            await  sleep()
+          const response =  await fetch('http://localhost:3000/users',{
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body : JSON.stringify({name,email})
+          })
+
+          return response.json();
         },
     });
 
@@ -49,7 +59,7 @@ export default function Users() {
                          />
 
                         <button className="bg-blue-400 py-2 text-zinc-950 rounded-md">
-                            Cadastrar
+                            {isPending ? 'Cadastrando...' : 'Cadastrar'}
                         </button>
                     </form>
                 </div>
